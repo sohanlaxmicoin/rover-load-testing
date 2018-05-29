@@ -13,8 +13,9 @@ import (
 	"github.com/laxmicoinofficial/go/keypair"
 	"golang.org/x/time/rate"
 
-	"github.com/kinfoundation/stellar-load-testing/cmd/loadtest/errors"
-	"github.com/kinfoundation/stellar-load-testing/cmd/loadtest/sequence"
+	//local folder structure path
+	"github.com/rover/load-testing/cmd/loadtest/errors"
+	"github.com/rover/load-testing/cmd/loadtest/sequence"
 )
 
 // Submitter continuously submits transactions to the Stellar network according to a rate limiter.

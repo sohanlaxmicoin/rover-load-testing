@@ -1,4 +1,4 @@
-package: github.com/kinfoundation/stellar-load-testing
+package: github.com/rover/load-testing
 import:
 - package: github.com/laxmicoinofficial/go
   subpackages:

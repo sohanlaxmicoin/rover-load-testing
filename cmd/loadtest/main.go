@@ -18,8 +18,9 @@ import (
 	"github.com/laxmicoinofficial/go/keypair"
 	"golang.org/x/time/rate"
 
-	"github.com/kinfoundation/stellar-load-testing/cmd/loadtest/sequence"
-	"github.com/kinfoundation/stellar-load-testing/cmd/loadtest/submitter"
+	//local folder structure path
+	"github.com/rover/load-testing/cmd/loadtest/sequence"
+	"github.com/rover/load-testing/cmd/loadtest/submitter"
 )
 
 // ClientTimeout is the orbit HTTP request timeout.

@@ -13,12 +13,12 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/stellar/go/clients/horizon"
-	"github.com/stellar/go/keypair"
+	"github.com/laxmicoinofficial/go/clients/orbit"
+	"github.com/laxmicoinofficial/go/keypair"
 )
 
 var (
-	horizonDomainFlag = flag.String("address", "https://horizon-testnet.stellar.org", "horizon address")
+	orbitDomainFlag = flag.String("address", "http://localhost:8000", "orbit address")
 	accountsFile      = flag.String("input", "accounts.json", "keypairs input file")
 )
 
@@ -30,7 +30,7 @@ type Keypairs struct {
 	Keypairs []Keypair `json:"keypairs"`
 }
 
-func logBalance(account *horizon.Account, logger log.Logger) {
+func logBalance(account *orbit.Account, logger log.Logger) {
 }
 
 func main() {
@@ -60,8 +60,8 @@ func main() {
 	}
 
 	// Log accounts
-	client := horizon.Client{
-		URL:  *horizonDomainFlag,
+	client := orbit.Client{
+		URL:  *orbitDomainFlag,
 		HTTP: &http.Client{Timeout: 5 * time.Second},
 	}
 	for _, kpObj := range keypairs.Keypairs {

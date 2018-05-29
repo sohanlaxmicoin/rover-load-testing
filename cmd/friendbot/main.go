@@ -12,22 +12,22 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/stellar/go/clients/horizon"
-	"github.com/stellar/go/keypair"
+	"github.com/laxmicoinofficial/go/clients/orbit"
+	"github.com/laxmicoinofficial/go/keypair"
 )
 
 var (
-	horizonDomainFlag = flag.String("address", "https://horizon-testnet.stellar.org", "horizon address")
+	orbitDomainFlag = flag.String("address", "http://localhost:8000", "orbit address")
 )
 
-func Fund(horizonAddr string, kp keypair.KP, logger log.Logger) error {
+func Fund(orbitAddr string, kp keypair.KP, logger log.Logger) error {
 	l := log.With(logger, "address", kp.Address()[:5])
 
 	level.Info(l).Log("msg", "sending funding request", "address", kp.Address()[:5])
 
 	client := http.Client{Timeout: 10 * time.Second}
 
-	res, err := client.Get(fmt.Sprintf("%s/friendbot?addr=%s", horizonAddr, kp.Address()))
+	res, err := client.Get(fmt.Sprintf("%s/friendbot?addr=%s", orbitAddr, kp.Address()))
 	if err != nil {
 		return err
 	}
@@ -70,15 +70,15 @@ func main() {
 
 	level.Info(logger).Log("msg", "keypair created", "address", kp.Address(), "seed", kp.Seed())
 
-	if err := Fund(*horizonDomainFlag, kp, logger); err != nil {
+	if err := Fund(*orbitDomainFlag, kp, logger); err != nil {
 		level.Error(logger).Log("msg", err)
 		os.Exit(1)
 	}
 
 	l := log.With(logger, "address", kp.Address()[:5])
 
-	client := horizon.Client{
-		URL:  *horizonDomainFlag,
+	client := orbit.Client{
+		URL:  *orbitDomainFlag,
 		HTTP: &http.Client{Timeout: 10 * time.Second},
 	}
 

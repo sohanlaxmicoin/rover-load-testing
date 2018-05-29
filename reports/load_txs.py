@@ -7,7 +7,7 @@ import sys
 import requests
 
 
-HORIZON = 'https://horizon.stellar.org'
+HORIZON = 'http://localhost:8000'
 ORDER = 'asc'
 LIMIT = 200  # maximum amount of reuslts per request
 

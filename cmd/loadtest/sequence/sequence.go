@@ -1,5 +1,5 @@
 // Package sequence implements an in-app sequence provider for the Stellar network,
-// independent of Horizon nodes.
+// independent of orbit nodes.
 package sequence
 
 import (
@@ -8,13 +8,13 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/stellar/go/build"
-	"github.com/stellar/go/clients/horizon"
-	"github.com/stellar/go/xdr"
+	"github.com/laxmicoinofficial/go/build"
+	"github.com/laxmicoinofficial/go/clients/orbit"
+	"github.com/laxmicoinofficial/go/xdr"
 )
 
 // Provider provides sequence numbers for Stellar transactions,
-// with local in-app caching. This saves on executing multiple requests to an Horizon
+// with local in-app caching. This saves on executing multiple requests to an orbit
 // instance for fetching an account's sequence number.
 //
 // Note this package assumes you are using no more than a single provider for
@@ -24,7 +24,7 @@ type Provider struct {
 	build.SequenceProvider
 	sync.RWMutex
 
-	client horizon.ClientInterface
+	client orbit.ClientInterface
 
 	// Local account sequence number cache
 	sequences map[string]xdr.SequenceNumber
@@ -32,8 +32,8 @@ type Provider struct {
 	logger log.Logger
 }
 
-// New receives an Horizon client and returns a new Provider instance.
-func New(c horizon.ClientInterface, logger log.Logger) *Provider {
+// New receives an orbit client and returns a new Provider instance.
+func New(c orbit.ClientInterface, logger log.Logger) *Provider {
 	return &Provider{
 		RWMutex:   sync.RWMutex{},
 		client:    c,
@@ -44,7 +44,7 @@ func New(c horizon.ClientInterface, logger log.Logger) *Provider {
 
 // SequenceForAccount returns the sequence number for given account using local cache.
 func (p *Provider) SequenceForAccount(address string) (xdr.SequenceNumber, error) {
-	// Fetch sequence number from Horizon if not found in cache.
+	// Fetch sequence number from orbit if not found in cache.
 	p.RLock()
 	seq, ok := p.sequences[address]
 	p.RUnlock()
@@ -66,7 +66,7 @@ func (p *Provider) SequenceForAccount(address string) (xdr.SequenceNumber, error
 	return seq, nil
 }
 
-// LoadSequenceWithClient loads the sequence number using the provider's horizon.ClientInterface.
+// LoadSequenceWithClient loads the sequence number using the provider's orbit.ClientInterface.
 // This is in contrast to loading it from local cache.
 func (p *Provider) LoadSequenceWithClient(address string) (xdr.SequenceNumber, error) {
 	account, err := p.client.LoadAccount(address)
@@ -89,7 +89,7 @@ func (p *Provider) LoadSequenceWithClient(address string) (xdr.SequenceNumber, e
 		"msg", "sequence number fetched",
 		"sequence_number", seq,
 		"source_address", address,
-		"sequence_provider_source", "horizon client")
+		"sequence_provider_source", "orbit client")
 
 	return seq, nil
 }

@@ -13,22 +13,22 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log/level"
-	"github.com/stellar/go/build"
-	"github.com/stellar/go/clients/horizon"
-	"github.com/stellar/go/keypair"
+	"github.com/laxmicoinofficial/go/build"
+	"github.com/laxmicoinofficial/go/clients/orbit"
+	"github.com/laxmicoinofficial/go/keypair"
 	"golang.org/x/time/rate"
 
 	"github.com/kinfoundation/stellar-load-testing/cmd/loadtest/sequence"
 	"github.com/kinfoundation/stellar-load-testing/cmd/loadtest/submitter"
 )
 
-// ClientTimeout is the Horizon HTTP request timeout.
+// ClientTimeout is the orbit HTTP request timeout.
 const ClientTimeout = 120 * time.Second
 
 var (
 	debugFlag             = flag.Bool("debug", false, "enable debug log level")
-	horizonDomainFlag     = flag.String("address", "https://horizon-testnet.stellar.org", "horizon address")
-	stellarPassphraseFlag = flag.String("passphrase", "Test SDF Network ; September 2015", "stellar network passphrase")
+	orbitDomainFlag     = flag.String("address", "http://localhost:8000", "orbit address")
+	stellarPassphraseFlag = flag.String("passphrase", "Rover Testnet ; April 2018", "stellar network passphrase")
 	logFileFlag           = flag.String("log", "loadtest.log", "log file path")
 	destinationFileFlag   = flag.String("dest", "dest.json", "destination keypairs input file")
 	accountsFileFlag      = flag.String("accounts", "accounts.json", "submitter keypairs input file")
@@ -71,8 +71,8 @@ func Run() int {
 		return 1
 	}
 
-	client := horizon.Client{
-		URL:  *horizonDomainFlag,
+	client := orbit.Client{
+		URL:  *orbitDomainFlag,
 		HTTP: &http.Client{Timeout: ClientTimeout},
 	}
 

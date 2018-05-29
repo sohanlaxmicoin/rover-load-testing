@@ -8,9 +8,9 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/stellar/go/build"
-	"github.com/stellar/go/clients/horizon"
-	"github.com/stellar/go/keypair"
+	"github.com/laxmicoinofficial/go/build"
+	"github.com/laxmicoinofficial/go/clients/orbit"
+	"github.com/laxmicoinofficial/go/keypair"
 	"golang.org/x/time/rate"
 
 	"github.com/kinfoundation/stellar-load-testing/cmd/loadtest/errors"
@@ -21,7 +21,7 @@ import (
 //
 // The transactions always consist of a single payment operation to a predefined destination address.
 type Submitter struct {
-	client  *horizon.Client
+	client  *orbit.Client
 	network build.Network
 
 	sourceSeed,
@@ -43,7 +43,7 @@ type Submitter struct {
 
 // New returns a new Submitter.
 func New(
-	client *horizon.Client,
+	client *orbit.Client,
 	network build.Network,
 	provider *sequence.Provider,
 	source *keypair.Full,
@@ -137,7 +137,7 @@ func (s *Submitter) submit(logger log.Logger, destIndex int, native bool) error 
 		if native {
 			amount = build.NativeAmount{Amount: s.transferAmount}
 		} else {
-			amount = build.CreditAmount{"KIN", "GBSJ7KFU2NXACVHVN2VWQIXIV5FWH6A7OIDDTEUYTCJYGY3FJMYIDTU7", s.transferAmount}
+			amount = build.CreditAmount{"ROVER", "GD6T2UUV534C24LSF274YMWHO74SMVTQDE6QCHL6OV6IMPQ6CY3O4XDC", s.transferAmount}
 		}
 
 		ops = append(ops, build.Payment(build.Destination{AddressOrSeed: s.destinationAddresses[destIndex].Address()}, amount))
@@ -190,7 +190,7 @@ func (s *Submitter) submit(logger log.Logger, destIndex int, native bool) error 
 		return nil
 	}
 
-	// Logs errors and set the current sequence number from Horizon instead of local cache
+	// Logs errors and set the current sequence number from orbit instead of local cache
 	// if transaction failed due to bad sequence number.
 	code := errors.GetTxErrorResultCodes(err, log.With(logger, "transaction_status", "failure"))
 	if code != nil && code.TransactionCode == "tx_bad_seq" {

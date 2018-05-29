@@ -13,9 +13,9 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/stellar/go/build"
-	"github.com/stellar/go/clients/horizon"
-	"github.com/stellar/go/keypair"
+	"github.com/laxmicoinofficial/go/build"
+	"github.com/laxmicoinofficial/go/clients/orbit"
+	"github.com/laxmicoinofficial/go/keypair"
 )
 
 const (
@@ -23,7 +23,7 @@ const (
 )
 
 var (
-	horizonDomainFlag = flag.String("address", "https://horizon-testnet.stellar.org", "horizon address")
+	orbitDomainFlag = flag.String("address", "http://localhost:8000", "orbit address")
 	publicNetworkFlag = flag.Bool("pubnet", false, "use public network")
 	funderSeedFlag    = flag.String("funder", "", "funder seed")
 	accountsNumFlag   = flag.Int("accounts", 0, "amount of accounts to create and fund")
@@ -40,13 +40,13 @@ type Keypairs struct {
 	Keypairs []Keypair `json:"keypairs"`
 }
 
-func logBalance(account *horizon.Account, logger log.Logger) {
+func logBalance(account *orbit.Account, logger log.Logger) {
 	for _, balance := range account.Balances {
 		level.Info(logger).Log("balance", balance.Balance, "asset_type", balance.Asset.Type)
 	}
 }
 
-func logBalances(client horizon.ClientInterface, keypairs []keypair.KP, logger log.Logger) {
+func logBalances(client orbit.ClientInterface, keypairs []keypair.KP, logger log.Logger) {
 	for i, kp := range keypairs {
 		l := log.With(logger, "account_index", i)
 
@@ -74,8 +74,8 @@ func main() {
 		level.Info(logger).Log("execution_time", time.Since(start))
 	}(logger)
 
-	client := horizon.Client{
-		URL:  *horizonDomainFlag,
+	client := orbit.Client{
+		URL:  *orbitDomainFlag,
 		HTTP: &http.Client{Timeout: loadAccountTimeout},
 	}
 
@@ -96,7 +96,7 @@ func main() {
 	}
 
 	// Create and fund accounts
-	keypairs, err := Create(*horizonDomainFlag, network, funderKP.(*keypair.Full), *accountsNumFlag, *fundAmountFlag, logger)
+	keypairs, err := Create(*orbitDomainFlag, network, funderKP.(*keypair.Full), *accountsNumFlag, *fundAmountFlag, logger)
 	if err != nil {
 		os.Exit(1)
 	}

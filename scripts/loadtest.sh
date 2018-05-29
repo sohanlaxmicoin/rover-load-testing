@@ -16,7 +16,7 @@ fi
 
 DEBUG="${DEBUG:-true}"
 HORIZON="${HORIZON:-http://localhost:8000}"
-PASSPHRASE="${PASSPHRASE:-"private testnet"}"
+PASSPHRASE="${PASSPHRASE:-"Rover Testnet ; April 2018"}"
 LOG="${LOG:-loadtest.log}"
 ACCOUNTS_FILE="${ACCOUNTS_FILE:-accounts.json}"
 TX_AMOUNT="${TX_AMOUNT:-0.0001}"

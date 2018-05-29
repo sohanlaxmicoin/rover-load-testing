@@ -7,9 +7,9 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/stellar/go/build"
-	"github.com/stellar/go/clients/horizon"
-	"github.com/stellar/go/keypair"
+	"github.com/laxmicoinofficial/go/build"
+	"github.com/laxmicoinofficial/go/clients/orbit"
+	"github.com/laxmicoinofficial/go/keypair"
 )
 
 const (
@@ -22,7 +22,7 @@ const (
 	retryFailedTxAmount = 10
 )
 
-func Create(horizonAddr string, network build.Network, funder *keypair.Full, accountsNum int, fundAmount string, logger log.Logger) ([]keypair.KP, error) {
+func Create(orbitAddr string, network build.Network, funder *keypair.Full, accountsNum int, fundAmount string, logger log.Logger) ([]keypair.KP, error) {
 	level.Info(logger).Log("msg", "creating accounts", "accounts_num", accountsNum)
 
 	keypairs := make([]keypair.KP, 0, accountsNum)
@@ -48,7 +48,7 @@ func Create(horizonAddr string, network build.Network, funder *keypair.Full, acc
 
 		level.Info(logger).Log("msg", "submitting create account transaction")
 
-		err := submitWithRetry(horizonAddr, network, ops, funder.Seed(), logger)
+		err := submitWithRetry(orbitAddr, network, ops, funder.Seed(), logger)
 		if err != nil {
 			GetTxErrorResultCodes(err, logger)
 			return nil, err
@@ -66,13 +66,13 @@ func Create(horizonAddr string, network build.Network, funder *keypair.Full, acc
 	return keypairs, nil
 }
 
-func submitWithRetry(horizonAddr string, network build.Network, ops []build.TransactionMutator, seed string, logger log.Logger) error {
+func submitWithRetry(orbitAddr string, network build.Network, ops []build.TransactionMutator, seed string, logger log.Logger) error {
 	var err error
 	for i := 0; i < retryFailedTxAmount; i++ {
 		level.Info(logger).Log("retry_index", i, "msg", "submitting transaction")
 
-		client := horizon.Client{
-			URL:  horizonAddr,
+		client := orbit.Client{
+			URL:  orbitAddr,
 			HTTP: &http.Client{Timeout: submitTimeout}}
 
 		fullOps := append(
@@ -80,8 +80,8 @@ func submitWithRetry(horizonAddr string, network build.Network, ops []build.Tran
 				build.SourceAccount{AddressOrSeed: seed},
 				network,
 				build.AutoSequence{
-					SequenceProvider: &horizon.Client{
-						URL:  horizonAddr,
+					SequenceProvider: &orbit.Client{
+						URL:  orbitAddr,
 						HTTP: client.HTTP,
 					},
 				},

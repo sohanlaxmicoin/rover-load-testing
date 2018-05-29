@@ -1,6 +1,6 @@
 package: github.com/kinfoundation/stellar-load-testing
 import:
-- package: github.com/stellar/go
+- package: github.com/laxmicoinofficial/go
   subpackages:
   - build
   - clients/horizon

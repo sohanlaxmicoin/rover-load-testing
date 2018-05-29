@@ -14,15 +14,15 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/stellar/go/build"
-	"github.com/stellar/go/clients/horizon"
-	"github.com/stellar/go/keypair"
+	"github.com/laxmicoinofficial/go/build"
+	"github.com/laxmicoinofficial/go/clients/orbit"
+	"github.com/laxmicoinofficial/go/keypair"
 )
 
 const maxMergeOps = 19
 
 var (
-	horizonDomainFlag   = flag.String("address", "https://horizon-testnet.stellar.org", "horizon address")
+	orbitDomainFlag   = flag.String("address", "http://localhost:8000", "orbit address")
 	publicNetworkFlag   = flag.Bool("pubnet", false, "use public network")
 	destinationSeedFlag = flag.String("dest", "", "destination account seed")
 	accountsFile        = flag.String("input", "accounts.json", "keypairs input file")
@@ -97,8 +97,8 @@ func main() {
 		}
 
 		// Add transaction submitter source account and network information
-		client := horizon.Client{
-			URL:  *horizonDomainFlag,
+		client := orbit.Client{
+			URL:  *orbitDomainFlag,
 			HTTP: &http.Client{Timeout: 20 * time.Second},
 		}
 		ops = append(

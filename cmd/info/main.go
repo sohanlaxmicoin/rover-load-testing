@@ -8,18 +8,18 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/stellar/go/clients/horizon"
+	"github.com/laxmicoinofficial/go/clients/orbit"
 )
 
 var (
-	horizonDomainFlag = flag.String("horizon", "https://horizon-testnet.stellar.org", "horizon address")
+	orbitDomainFlag = flag.String("orbit", "http://localhost:8000", "orbit address")
 	addressFlag       = flag.String("address", "", "account address")
 )
 
 func main() {
 	flag.Parse()
 
-	client := horizon.Client{
+	client := orbit.Client{
 		URL:  *horizonDomainFlag,
 		HTTP: &http.Client{Timeout: 5 * time.Second},
 	}

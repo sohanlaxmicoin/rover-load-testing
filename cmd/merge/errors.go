@@ -3,16 +3,16 @@ package main
 import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/stellar/go/clients/horizon"
+	"github.com/laxmicoinofficial/go/clients/orbit"
 )
 
-func GetTxErrorResultCodes(err error, logger log.Logger) *horizon.TransactionResultCodes {
+func GetTxErrorResultCodes(err error, logger log.Logger) *orbit.TransactionResultCodes {
 	level.Error(logger).Log("msg", err)
 	switch e := err.(type) {
-	case *horizon.Error:
+	case *orbit.Error:
 		code, err := e.ResultCodes()
 		if err != nil {
-			level.Error(logger).Log("msg", "failed to extract result codes from horizon response")
+			level.Error(logger).Log("msg", "failed to extract result codes from orbit response")
 			return nil
 		}
 		level.Error(logger).Log("code", code.TransactionCode)

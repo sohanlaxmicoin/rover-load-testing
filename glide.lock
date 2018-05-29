@@ -52,8 +52,8 @@ imports:
   repo: https://github.com/sirupsen/logrus
   subpackages:
   - hooks/test
-- name: github.com/stellar/go
-  version: 333387f23a0f205a3c00bdc33cb454e0fda32095
+- name: github.com/laxmicoinofficial/go
+  version: 5df15ba42b0744671db28d0b777f3fdfcb8260bd
   subpackages:
   - amount
   - build

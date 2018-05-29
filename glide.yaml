@@ -7,6 +7,7 @@ import:
   - keypair
 - package: github.com/agl/ed25519
 - package: github.com/go-kit/kit
+- package: github.com/lib/pq
   version: 0.6.0
   subpackages:
   - log

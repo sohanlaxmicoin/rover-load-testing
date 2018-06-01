@@ -24,7 +24,7 @@ import (
 )
 
 // ClientTimeout is the orbit HTTP request timeout.
-const ClientTimeout = 120 * time.Second
+const ClientTimeout = 2 * time.Second
 
 var (
 	debugFlag             = flag.Bool("debug", false, "enable debug log level")

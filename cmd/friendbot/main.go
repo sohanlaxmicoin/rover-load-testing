@@ -27,7 +27,7 @@ func Fund(orbitAddr string, kp keypair.KP, logger log.Logger) error {
 
 	client := http.Client{Timeout: 10 * time.Second}
 
-	res, err := client.Get(fmt.Sprintf("%s/friendbot?addr=%s", orbitAddr, kp.Address()))
+	res, err := client.Get(fmt.Sprintf("%s/dakibot?addr=%s", orbitAddr, kp.Address()))
 	if err != nil {
 		return err
 	}

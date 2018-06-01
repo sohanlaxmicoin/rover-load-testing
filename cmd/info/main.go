@@ -20,7 +20,7 @@ func main() {
 	flag.Parse()
 
 	client := orbit.Client{
-		URL:  *horizonDomainFlag,
+		URL:  *orbitDomainFlag,
 		HTTP: &http.Client{Timeout: 5 * time.Second},
 	}
 

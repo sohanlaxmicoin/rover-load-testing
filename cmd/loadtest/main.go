@@ -29,7 +29,7 @@ const ClientTimeout = 120 * time.Second
 var (
 	debugFlag             = flag.Bool("debug", false, "enable debug log level")
 	orbitDomainFlag     = flag.String("address", "http://localhost:8000", "orbit address")
-	stellarPassphraseFlag = flag.String("passphrase", "Rover Standlone Testnet ; April 2018", "stellar network passphrase")
+	stellarPassphraseFlag = flag.String("passphrase", "Rover Public Testnet ; April 2018", "stellar network passphrase")
 	logFileFlag           = flag.String("log", "loadtest.log", "log file path")
 	destinationFileFlag   = flag.String("dest", "dest.json", "destination keypairs input file")
 	accountsFileFlag      = flag.String("accounts", "accounts.json", "submitter keypairs input file")
